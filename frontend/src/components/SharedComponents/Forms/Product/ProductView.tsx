@@ -90,10 +90,14 @@ const ProductForm: React.FC<ProductModel.FormProps> = (props) => {
           dispatch({
             type: 'setFormState',
             key: 'Stock',
-            value: e.target.value
+            value: e.target.value.replace(/\D/g, '') // Allow only numbers
           })
         }
         disabled={props.isLoading}
+        inputProps={{
+          inputMode: 'numeric',
+          pattern: '[0-9]*'
+        }}
       />
       <Select
         value={state.Category}

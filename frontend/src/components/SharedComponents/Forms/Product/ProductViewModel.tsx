@@ -57,7 +57,7 @@ export default function useProductFormViewModel(props: ProductModel.FormProps) {
   }, []);
 
   //FUNCTIONS
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     props.handleSubmit(state);
   };
 
