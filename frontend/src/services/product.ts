@@ -11,7 +11,7 @@ const productService = {
   async delete(id: string) {
     return await axios.delete(`/product/delete/${id}`);
   },
-  async update(productId: string, data: ProductModel.ProductDataProps) {
+  async update(productId: string, data: ProductModel.FormInitialState) {
     return await axios.patch(`/product/edit/${productId}`, data);
   },
   async get(productId: string) {

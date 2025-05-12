@@ -1,51 +1,25 @@
-import HomeWrapper from '@/components/Home/Home';
+import HomeWrapper from '@/components/Home/HomeView';
+import api from '@/services';
 
 export const metadata = {
   title: 'Product Catalog App'
 };
 
-export default function Home() {
-  const products = [
-    {
-      _id: '1',
-      Title: 'Teste',
-      Price: 99.99,
-      Stock: 2,
-      Category: 'Food',
-      Description: 'Testando a listagem'
-    },
-    {
-      _id: '2',
-      Title: 'Teste',
-      Price: 99.99,
-      Stock: 2,
-      Category: 'Food',
-      Description: 'Testando a listagem'
-    },
-    {
-      _id: '3',
-      Title: 'Teste',
-      Price: 99.99,
-      Stock: 2,
-      Category: 'Food',
-      Description: 'Testando a listagem'
-    },
-    {
-      _id: '4',
-      Title: 'Teste',
-      Price: 99.99,
-      Stock: 2,
-      Category: 'Food',
-      Description: 'Testando a listagem'
-    },
-    {
-      _id: '5',
-      Title: 'Teste',
-      Price: 99.99,
-      Stock: 2,
-      Category: 'Food',
-      Description: 'Testando a listagem'
-    }
-  ];
+async function fetchData() {
+  try {
+    const productsResponse = await api.product.getAll();
+
+    const products = productsResponse.data;
+    return {
+      products
+    };
+  } catch (error) {
+    console.log(error);
+    return { products: [] };
+  }
+}
+
+export default async function Home() {
+  const { products } = await fetchData();
   return <HomeWrapper products={products}></HomeWrapper>;
 }

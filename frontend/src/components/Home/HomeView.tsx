@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid2';
-import ProductList from './Lists/Product/Product';
+import ProductList from './Lists/Product/ProductView';
 import Link from 'next/link';
 import ProductModel from '@/models/modules/product';
 

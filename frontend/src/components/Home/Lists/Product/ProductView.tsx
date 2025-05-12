@@ -1,8 +1,8 @@
 'use client';
-import ProductCard from '@/components/SharedComponents/Cards/Product/Product';
+import ProductCard from '@/components/SharedComponents/Cards/Product/ProductView';
 import Grid from '@mui/material/Grid2';
-import AlertDialog from '@/components/SharedComponents/Dialogs/Alert/Alert';
-import InfoSnackbar from '@/components/SharedComponents/Snackbars/Info/Info';
+import AlertDialog from '@/components/SharedComponents/Dialogs/Alert/AlertView';
+import InfoSnackbar from '@/components/SharedComponents/Snackbars/Info/InfoView';
 import { useState, useCallback } from 'react';
 import ProductModel from '@/models/modules/product';
 

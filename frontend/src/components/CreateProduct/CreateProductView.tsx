@@ -1,7 +1,7 @@
 'use client';
 import Grid from '@mui/material/Grid2';
 import ProductForm from '@/components/SharedComponents/Forms/Product/ProductView';
-import InfoSnackbar from '@/components/SharedComponents/Snackbars/Info/Info';
+import InfoSnackbar from '@/components/SharedComponents/Snackbars/Info/InfoView';
 import useCreateProductViewModel from './CreateProductViewModel';
 
 export default function CreateProductWrapper() {
