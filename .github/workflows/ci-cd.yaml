@@ -1,0 +1,97 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  # muda para o teu registry:
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  FRONTEND_IMAGE: ${{ env.IMAGE_REGISTRY }}/frontend
+  BACKEND_IMAGE:  ${{ env.IMAGE_REGISTRY }}/backend
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install & build Frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install & build Backend
+        working-directory: backend
+        run: |
+          npm ci
+          npm run build
+          npm run lint
+          npm test
+
+  dockerize:
+    name: Build & Push Docker Images
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & Push Frontend image
+        run: |
+          docker build \
+            --file frontend/Dockerfile \
+            --tag ${{ env.FRONTEND_IMAGE }}:latest \
+            frontend/
+          docker push ${{ env.FRONTEND_IMAGE }}:latest
+
+      - name: Build & Push Backend image
+        run: |
+          docker build \
+            --file backend/Dockerfile \
+            --tag ${{ env.BACKEND_IMAGE }}:latest \
+            backend/
+          docker push ${{ env.BACKEND_IMAGE }}:latest
+
+  deploy:
+    name: Deploy to Server
+    needs: dockerize
+    runs-on: ubuntu-latest
+    if: secrets.DEPLOY_HOST != ''
+
+    steps:
+      - name: Checkout infra config
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy via Docker-Compose
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+            cd /caminho/para/seu/projeto
+            # puxa novas imagens
+            docker-compose pull
+            # sobe containers atualizados
+            docker-compose up -d
+          EOF
