@@ -14,6 +14,12 @@ Product Catalog App
 docker-compose up -d --build
 ```
 
+## URL for the project(put on the browser)
+
+```bash
+http://localhost:8000
+```
+
 ## Features in the project
 
 - Listing All Products
