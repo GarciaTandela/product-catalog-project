@@ -3,32 +3,19 @@ import ProductCard from '@/components/SharedComponents/Cards/Product/ProductView
 import Grid from '@mui/material/Grid2';
 import AlertDialog from '@/components/SharedComponents/Dialogs/Alert/AlertView';
 import InfoSnackbar from '@/components/SharedComponents/Snackbars/Info/InfoView';
-import { useState, useCallback } from 'react';
 import ProductModel from '@/models/modules/product';
+import useProductListViewModel from './ProductViewModel';
 
 const ProductList: React.FC<ProductModel.ProductListProps> = (props) => {
-  const [alertDialog, setAlertDialog] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [productId, setProductId] = useState('');
-  const [showInfo, setShowInfo] = useState(false);
-
-  const openAlertDialog = useCallback((id: string) => {
-    setProductId(id);
-    setAlertDialog(true);
-  }, []);
-
-  const closeAlertDialog = () => {
-    setProductId('');
-    setAlertDialog(false);
-  };
-
-  const deleteProduct = () => {
-    setIsLoading(false);
-    setAlertDialog(false);
-    setShowInfo(true);
-    setShowInfo(false);
-    console.log(productId);
-  };
+  const {
+    alertDialog,
+    isLoading,
+    state,
+    closeAlertDialog,
+    openAlertDialog,
+    closeSnackBar,
+    deleteProduct
+  } = useProductListViewModel();
 
   return (
     <>
@@ -49,7 +36,12 @@ const ProductList: React.FC<ProductModel.ProductListProps> = (props) => {
         removeAction={deleteProduct}
       ></AlertDialog>
       <InfoSnackbar
-        data={{ show: showInfo, type: 'success', message: 'Olá' }}
+        data={{
+          show: state.data.show,
+          type: state.data.type,
+          message: state.data.message
+        }}
+        close={closeSnackBar}
       ></InfoSnackbar>
     </>
   );

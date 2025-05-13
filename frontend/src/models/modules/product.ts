@@ -54,6 +54,17 @@ namespace Product {
       Description: string;
     };
   }
+
+  export interface ProductStoreState {
+    products: {
+      _id: string;
+      Title: string;
+      Price: number;
+      Stock: number;
+      Category: string;
+      Description: string;
+    }[];
+  }
 }
 
 export default Product;
