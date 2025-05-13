@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+const isServer = typeof window === 'undefined';
+
+const baseURL = isServer
+  ? 'http://backend:3000' // inside Docker network
+  : process.env.NEXT_PUBLIC_API_URL; // http://localhost:3000
+
 const FRONTEND_IDENTIFIER = 'MyAppFrontend';
 
 const dateInfo = new Date();
@@ -10,7 +16,7 @@ const securityWord = COMUNICATION_SECRET_KEY + '$.$' + timestamp.toString();
 const securityHash = Buffer.from(securityWord).toString('base64');
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL
 });
 
 api.interceptors.request.use(
