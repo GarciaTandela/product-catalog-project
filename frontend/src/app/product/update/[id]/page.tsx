@@ -1,4 +1,4 @@
-import UpdateProductWrapper from '@/components/UpdateProduct/UpdateProduct';
+import UpdateProductWrapper from '@/components/UpdateProduct/UpdateProductView';
 import api from '@/services';
 
 interface UpdateProductParams {

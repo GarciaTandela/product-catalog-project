@@ -18,43 +18,45 @@ const ProductCard: React.FC<ProductModel.ProductCardProps> = ({
 
   return (
     <Card sx={{ maxHeight: 617, minHeight: 150 }}>
-      <CardContent>
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            mb: 1
-          }}
-        >
-          {data.Title}
-        </Typography>
-        <Typography variant="subtitle1" color="text.primary">
-          Price: €{formatCurrency(data.Price)}
-        </Typography>
-        <Typography variant="subtitle1" color="text.primary">
-          Stock: 2
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Category: {data.Category}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            marginTop: '15px',
-            display: '-webkit-box',
-            overflow: 'hidden',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 4,
-            textOverflow: 'ellipsis'
-          }}
-        >
-          {data.Description}
-        </Typography>
-      </CardContent>
+      <Link href={`/product/detail/${data._id}`} passHref>
+        <CardContent>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              mb: 1
+            }}
+          >
+            {data.Title}
+          </Typography>
+          <Typography variant="subtitle1" color="text.primary">
+            Price: €{formatCurrency(data.Price)}
+          </Typography>
+          <Typography variant="subtitle1" color="text.primary">
+            Stock: {data.Stock}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Category: {data.Category}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              marginTop: '15px',
+              display: '-webkit-box',
+              overflow: 'hidden',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 4,
+              textOverflow: 'ellipsis'
+            }}
+          >
+            {data.Description}
+          </Typography>
+        </CardContent>
+      </Link>
       <CardActions sx={{ justifyContent: 'end' }}>
         <Link href={`/product/update/${data._id}`} passHref>
           <Button size="small">Update</Button>
